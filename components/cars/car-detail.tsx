@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { AuctionListing } from "@/components/auction/auction-listing";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -122,30 +123,47 @@ export function CarDetail({ car }: CarDetailProps) {
                   <span>Vehicle protection plans available</span>
                 </div>
                 
-                <Dialog open={showContactDialog} onOpenChange={setShowContactDialog}>
-                  <DialogTrigger asChild>
-                    <Button size="lg" className="w-full">
-                      Get Started
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent>
-                    <DialogHeader>
-                      <DialogTitle>Contact Information</DialogTitle>
-                      <DialogDescription>
-                        Our team will reach out to you shortly to discuss the next steps.
-                      </DialogDescription>
-                    </DialogHeader>
-                    <div className="py-6">
-                      <p className="text-center text-muted-foreground">
-                        For demonstration purposes only. In a real application, this would contain a contact form.
-                      </p>
-                    </div>
-                  </DialogContent>
-                </Dialog>
+                {car.isAuction ? (
+                  <AuctionListing
+                    carId={car.id}
+                    currentPrice={car.currentBid || car.startingPrice || car.price}
+                    startPrice={car.startingPrice || car.price}
+                    endTime={car.auctionEndTime ? new Date(car.auctionEndTime) : new Date()}
+                    numberOfBids={car.numberOfBids || 0}
+                    highestBidder={car.highestBidder}
+                    onPlaceBid={(amount) => {
+                      console.log('Placing bid:', amount);
+                      // Will be implemented with backend integration
+                    }}
+                  />
+                ) : (
+                  <>
+                    <Dialog open={showContactDialog} onOpenChange={setShowContactDialog}>
+                      <DialogTrigger asChild>
+                        <Button size="lg" className="w-full">
+                          Get Started
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent>
+                        <DialogHeader>
+                          <DialogTitle>Contact Information</DialogTitle>
+                          <DialogDescription>
+                            Our team will reach out to you shortly to discuss the next steps.
+                          </DialogDescription>
+                        </DialogHeader>
+                        <div className="py-6">
+                          <p className="text-center text-muted-foreground">
+                            For demonstration purposes only. In a real application, this would contain a contact form.
+                          </p>
+                        </div>
+                      </DialogContent>
+                    </Dialog>
 
-                <Button variant="outline" className="w-full">
-                  Schedule Test Drive
-                </Button>
+                    <Button variant="outline" className="w-full">
+                      Schedule Test Drive
+                    </Button>
+                  </>
+                )}
               </div>
 
               <Separator />

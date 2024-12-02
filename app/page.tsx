@@ -10,19 +10,20 @@ import { Schema } from "../amplify/data/resource";
 import { createAIHooks } from "@aws-amplify/ui-react-ai";
 import { AIConversation } from '@aws-amplify/ui-react-ai';
 import { Authenticator } from "@aws-amplify/ui-react";
+import { UserDisplay } from "@/components/user-display";
 
 export const client = generateClient<Schema>({ authMode: "userPool" });
-export const { useAIConversation, useAIGeneration } = createAIHooks(client);
+//export const { useAIConversation, useAIGeneration } = createAIHooks(client);
 
 
 export default function Home() {
-  const [
-    {
-      data: { messages },
-      isLoading,
-    },
-    handleSendMessage,
-  ] = useAIConversation('chat');
+  // const [
+  //   {
+  //     data: { messages },
+  //     isLoading,
+  //   },
+  //   handleSendMessage,
+  // ] = useAIConversation('chat');
 
   return (
     <main>
@@ -37,6 +38,7 @@ export default function Home() {
           <h1 className="text-4xl md:text-6xl font-bold text-white max-w-4xl mx-auto">
             Find Your Dream Car Today
           </h1>
+          <UserDisplay />
           <p className="text-xl text-gray-200 max-w-2xl mx-auto">
             Search through thousands of cars from trusted dealers across the country
           </p>
@@ -60,11 +62,11 @@ export default function Home() {
         <FeaturedCategories />
       </div>
       <Authenticator>
-      <AIConversation
+      {/* <AIConversation
         messages={messages}
         isLoading={isLoading}
         handleSendMessage={handleSendMessage}
-      />
+      /> */}
     </Authenticator>
       {/* Trust Indicators */}
       <div className="bg-gray-50">

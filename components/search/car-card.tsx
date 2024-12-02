@@ -18,17 +18,35 @@ export function CarCard({ car }: CarCardProps) {
             alt={`${car.year} ${car.make} ${car.model}`}
             className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
           />
-          <Badge className="absolute top-2 right-2">
-            {car.bodyType}
-          </Badge>
+          <div className="absolute top-2 right-2 flex gap-2">
+            {car.isAuction && (
+              <Badge variant="destructive">
+                Auction
+              </Badge>
+            )}
+            <Badge>
+              {car.bodyType}
+            </Badge>
+          </div>
         </div>
         <CardContent className="p-4">
           <h3 className="text-lg font-semibold mb-2">
             {car.year} {car.make} {car.model}
           </h3>
-          <p className="text-2xl font-bold text-primary mb-4">
-            ${car.price.toLocaleString()}
-          </p>
+          <div className="mb-4">
+            {car.isAuction ? (
+              <div>
+                <p className="text-2xl font-bold text-primary">
+                  ${(car.currentBid || car.startingPrice || car.price).toLocaleString()}
+                </p>
+                <p className="text-sm text-muted-foreground">Current Bid</p>
+              </div>
+            ) : (
+              <p className="text-2xl font-bold text-primary">
+                ${car.price.toLocaleString()}
+              </p>
+            )}
+          </div>
           
           <div className="grid grid-cols-2 gap-2 mb-4 text-sm text-muted-foreground">
             <div className="flex items-center gap-1">

@@ -2,13 +2,13 @@ import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
 
 const schema = a
   .schema({
-      
-  chat: a.conversation({
-    aiModel: a.ai.model('Claude 3.5 Haiku'),
-    systemPrompt: 'You are a helpful assistant',
-  })
-  .authorization((allow) => allow.owner()),
-  
+
+    chat: a.conversation({
+      aiModel: a.ai.model('Claude 3.5 Haiku'),
+      systemPrompt: 'You are a helpful assistant',
+    })
+      .authorization((allow) => allow.owner()),
+
     CarListing: a
       .model({
         make: a.string().required(),
@@ -47,7 +47,16 @@ const schema = a
         exteriorColor: a.string().required(),
         vin: a.string().required()
       })
-      .authorization(allow => [allow.guest()]),
+      .authorization(allow => [
+        // Allow authenticated users full CRUD access
+        allow.owner().to(['create', 'read', 'update', 'delete']),
+
+        // Allow guests read-only access
+        allow.guest().to(['read']),
+
+        // Optionally, allow any authenticated user (not just owner) to read
+        allow.authenticated().to(['read'])
+      ])
   });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -55,6 +64,6 @@ export type Schema = ClientSchema<typeof schema>;
 export const data = defineData({
   schema,
   authorizationModes: {
-    defaultAuthorizationMode: "identityPool",
+    defaultAuthorizationMode: "userPool",
   },
 });
