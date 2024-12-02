@@ -12,7 +12,7 @@ import { AIConversation } from '@aws-amplify/ui-react-ai';
 import { Authenticator } from "@aws-amplify/ui-react";
 import { UserDisplay } from "@/components/user-display";
 
-export const client = generateClient<Schema>({ authMode: "userPool" });
+//export const client = generateClient<Schema>({ authMode: "userPool" });
 //export const { useAIConversation, useAIGeneration } = createAIHooks(client);
 
 
