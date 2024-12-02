@@ -14,7 +14,7 @@ const backend = defineBackend({
 const customResourceStack = backend.createStack('MyCustomResources');
 
 new rum.CfnAppMonitor(customResourceStack, 'MyAppMonitor', {
-  name: 'MyAmplifyAppMonitor',
+  name: 'MyAmplifyAppMonitor' + Date.now() + Math.random(),
   domain: '*.example.com', // Replace with your domain
   appMonitorConfiguration: {
     allowCookies: true, // Enable/disable cookies as needed
